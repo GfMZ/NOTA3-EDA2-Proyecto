@@ -1,5 +1,6 @@
 #ifndef GRAFO_H
 #define GRAFO_H
+#include "Lista.h"
 
 struct NodoInfo {
     int idInterno; 
@@ -11,7 +12,7 @@ class Grafo {
 private:
     NodoInfo* nodos; 
     int capacidad;   
-    // Aquí irá la lista de adyacencia
+    Lista* adj;
 
 
 public:
@@ -19,8 +20,9 @@ public:
     ~Grafo();
 
     void agregarNodo(int id, double lat, double lon);
-
-    // (Aquí irán 'agregarArista', 'dijkstra', etc.)
+    void agregarArista(int origen, int destino, double peso);
+    NodoInfo getNodoInfo(int id);
+    Lista& getListaAdyacencia(int id);
 };
 
 #endif
