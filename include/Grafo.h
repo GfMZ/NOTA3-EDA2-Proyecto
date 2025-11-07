@@ -23,6 +23,7 @@ public:
     void agregarArista(int origen, int destino, double peso);
     NodoInfo getNodoInfo(int id);
     Lista& getListaAdyacencia(int id);
+    void encontrarRutaMasCorta(int id_origen, int id_destino);
 };
 
 #endif

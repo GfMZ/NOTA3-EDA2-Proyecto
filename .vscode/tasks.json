@@ -10,6 +10,7 @@
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/Grafo.cpp",
                 "${workspaceFolder}/src/TablaHash.cpp",
+                "${workspaceFolder}/src/MinHeap.cpp",
                 "-o",
                 "${workspaceFolder}/src/main.exe"
             ],

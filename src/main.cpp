@@ -78,6 +78,9 @@ int main() {
     bool dentroDeWay = false;
     long long osm_ids_buffer[500];
     int buffer_count = 0;
+    //Prueba
+    int aristas_cargadas = 0;
+    int primer_vecino_de_cero = -1;
 
     while (getline(archivo, linea)) {
         if (linea.find("<way ") != string::npos) {
@@ -101,6 +104,19 @@ int main() {
                         NodoInfo nodoB = miMapa.getNodoInfo(id_B);
                         double peso = calcularDistancia(nodoA.lat, nodoA.lon, nodoB.lat, nodoB.lon);
                         miMapa.agregarArista(id_A, id_B, peso);
+
+                        //Prueba
+                        aristas_cargadas++; //Contaor
+
+                        if (id_A == 0 && primer_vecino_de_cero == -1){
+                            primer_vecino_de_cero = id_B;
+                            /* code */
+                        } else if (id_B == 0 && primer_vecino_de_cero == -1)
+                        {
+                            primer_vecino_de_cero = id_A;
+                        }
+                        
+                        
                     }
                 }
             }
@@ -121,7 +137,17 @@ int main() {
     archivo.close();
     cout << "Se cargaron todas las aristas" << endl;
 
-    // (Aquí estara la implementacion de Dijkstra)
+    //Dijkstra
+    int nodo_inicio = 0;
+    int nodo_fin = 500;
+    
+    //Prueba
+    if (primer_vecino_de_cero != -1) {
+        cout << "Prueba de Diagnostico: Buscando ruta del nodo 0 a su vecino " << primer_vecino_de_cero << endl;
+        miMapa.encontrarRutaMasCorta(0, primer_vecino_de_cero);
+    } else {
+        cout << "Error de Datos: El nodo 0 no tiene ningun vecino en el set de 1000 nodos." << endl;
+    }
 
     return 0;
 }
