@@ -78,9 +78,12 @@ int main() {
     bool dentroDeWay = false;
     long long osm_ids_buffer[500];
     int buffer_count = 0;
-    //Prueba
+
+
+    //Prueba 2
     int aristas_cargadas = 0;
-    int primer_vecino_de_cero = -1;
+    int nodoPruebaA = -1;
+    int nodoPruebaB = -1;
 
     while (getline(archivo, linea)) {
         if (linea.find("<way ") != string::npos) {
@@ -89,6 +92,7 @@ int main() {
             continue; 
         }
 
+// Detectamos el FIN de una calle
         if (linea.find("</way>") != string::npos) {
             dentroDeWay = false;
             
@@ -96,31 +100,29 @@ int main() {
                 for (int i = 0; i < buffer_count - 1; i++) {
                     long long osm_id_A = osm_ids_buffer[i];
                     long long osm_id_B = osm_ids_buffer[i+1];
+                    
                     int id_A = traductor.buscar(osm_id_A);
                     int id_B = traductor.buscar(osm_id_B);
 
                     if (id_A != -1 && id_B != -1) {
+                        
                         NodoInfo nodoA = miMapa.getNodoInfo(id_A);
                         NodoInfo nodoB = miMapa.getNodoInfo(id_B);
                         double peso = calcularDistancia(nodoA.lat, nodoA.lon, nodoB.lat, nodoB.lon);
+                        
                         miMapa.agregarArista(id_A, id_B, peso);
-
-                        //Prueba
-                        aristas_cargadas++; //Contaor
-
-                        if (id_A == 0 && primer_vecino_de_cero == -1){
-                            primer_vecino_de_cero = id_B;
-                            /* code */
-                        } else if (id_B == 0 && primer_vecino_de_cero == -1)
-                        {
-                            primer_vecino_de_cero = id_A;
+                        aristas_cargadas++; 
+                        
+   
+                        if (nodoPruebaA == -1) {
+                            nodoPruebaA = id_A;
+                            nodoPruebaB = id_B;
                         }
-                        
-                        
+
                     }
                 }
             }
-            buffer_count = 0;
+            buffer_count = 0; 
             continue; 
         }
 
@@ -142,11 +144,11 @@ int main() {
     int nodo_fin = 500;
     
     //Prueba
-    if (primer_vecino_de_cero != -1) {
-        cout << "Prueba de Diagnostico: Buscando ruta del nodo 0 a su vecino " << primer_vecino_de_cero << endl;
-        miMapa.encontrarRutaMasCorta(0, primer_vecino_de_cero);
+    if (nodoPruebaA != -1) {
+        cout << "Prueba de Diagnostico: Buscando ruta entre los nodos " << nodoPruebaA << " y " << nodoPruebaB << endl;
+        miMapa.encontrarRutaMasCorta(nodoPruebaA, nodoPruebaB);
     } else {
-        cout << "Error de Datos: El nodo 0 no tiene ningun vecino en el set de 1000 nodos." << endl;
+        cout << "Error de Datos: No se cargo NINGUNA arista. El grafo esta vacio." << endl;
     }
 
     return 0;
