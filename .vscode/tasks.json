@@ -13,6 +13,7 @@
                 "${workspaceFolder}/src/TablaHash.cpp",
                 "${workspaceFolder}/src/MinHeap.cpp",
                 "${workspaceFolder}/src/AVL.cpp",
+                "${workspaceFolder}/src/SVGExporter.cpp",
                 "-o",
                 "${workspaceFolder}/src/main.exe"
             ],

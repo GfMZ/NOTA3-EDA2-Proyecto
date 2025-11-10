@@ -5,6 +5,7 @@
 #include "../include/TablaHash.h"
 #include "../include/Grafo.h"
 #include "../include/AVL.h"
+#include "../include/SVGExporter.h"
 
 using namespace std;
 
@@ -148,12 +149,14 @@ int main() {
         cout << "3. Marcar Zona como Congestionada (AVL)" << endl;
         cout << "4. Desmarcar Zona como Congestionada (AVL)" << endl;
         cout << "5. Ver Reportes de Zonas (AVL)" << endl;
-        cout << "6. Salir" << endl;
+        cout << "6. Generar Mapa Completo" << endl;
+        cout << "7. Salir" << endl;
         cout << "=================================================" << endl;
         cout << "Ingrese su opcion: ";
 
+        //switch case
         cin >> opcion;
-        if (cin.fail()) { // Si el usuario no ingresa un número
+        if (cin.fail()) { 
             cin.clear();
             ClearBuffer();
             opcion = 0; // Opción inválida
@@ -175,6 +178,15 @@ int main() {
                 } else {
                     cout << "Error: IDs de nodo fuera de rango." << endl;
                 }
+                cout << "Calculando ruta..." << endl;
+                // Ahora Dijkstra devuelve la ruta
+                vector<int> ruta = miMapa.encontrarRutaMasCorta(origen, destino, registroEmergencias);
+
+                if (!ruta.empty()) {
+                    SVGExporter::exportarGrafo("ruta_calculada.svg", miMapa, contador_nodos, ruta);
+                    cout << "Se ha generado el archivo 'ruta_calculada.svg'. Abrelo con tu navegador web para ver el mapa." << endl;
+                    
+            }
                 break;
             }
             case 2: { // REGISTRAR EMERGENCIA
@@ -215,9 +227,15 @@ int main() {
                 registroEmergencias.mostrarArbolGrafico();
                 break;
             }
-            case 6: { // SALIR
+             case 6: { // EXPORTAR MAPA BASE
+                cout << "Generando mapa completo de la zona..." << endl;
+                SVGExporter::exportarGrafo("mapa_completo.svg", miMapa, contador_nodos, {});
+                cout << "Abra 'mapa_completo.svg' en su navegador para ver toda la red vial." << endl;
+                break;
+            }
+            case 7: { // SALIR 
                 cout << "Saliendo del sistema. ¡Gracias!" << endl;
-                return 0; // Termina el programa
+                return 0;
             }
             default: {
                 cout << "Opcion invalida. Por favor, intente de nuevo." << endl;
@@ -225,7 +243,7 @@ int main() {
             }
         } // Fin del switch
 
-        if (opcion != 6) {
+        if (opcion != 7) {
             cout << "\nPresione Enter para volver al menu principal...";
             cin.get();
         }
