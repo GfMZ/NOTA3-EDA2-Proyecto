@@ -8,6 +8,8 @@ struct NodoInfo {
     double lon;
 };
 
+class AVL;
+
 class Grafo {
 private:
     NodoInfo* nodos; 
@@ -23,7 +25,7 @@ public:
     void agregarArista(int origen, int destino, double peso);
     NodoInfo getNodoInfo(int id);
     Lista& getListaAdyacencia(int id);
-    void encontrarRutaMasCorta(int id_origen, int id_destino);
+    void encontrarRutaMasCorta(int id_origen, int id_destino, AVL& registro);
 };
 
 #endif

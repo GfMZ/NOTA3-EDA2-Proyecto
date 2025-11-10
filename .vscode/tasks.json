@@ -3,10 +3,11 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "G:\\msys64\\ucrt64\\bin\\g++.exe",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                "${workspaceFolder}/src/AVL.cpp",
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/Grafo.cpp",
                 "${workspaceFolder}/src/TablaHash.cpp",

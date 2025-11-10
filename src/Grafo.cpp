@@ -1,5 +1,6 @@
 #include "../include/Grafo.h"
 #include "../include/MinHeap.h"
+#include "../include/AVL.h"
 #include <limits>   
 #include <iostream> 
 
@@ -54,7 +55,7 @@ void imprimirRutaRecursivo(int actual, int* predecesor) {
 }
 
 //Dijkstra
-void Grafo::encontrarRutaMasCorta(int id_origen, int id_destino) {
+void Grafo::encontrarRutaMasCorta(int id_origen, int id_destino, AVL& registro) {
     double* distancias = new double[capacidad];
     int* predecesor = new int[capacidad];
     MinHeap pq(capacidad);
@@ -84,6 +85,12 @@ void Grafo::encontrarRutaMasCorta(int id_origen, int id_destino) {
             double peso_uv = vecino->arista.peso;
             double nueva_dist = distancias[u] + peso_uv;
 
+            if (registro.estaCongestionado(v))
+            {   
+                peso_uv = peso_uv*3.0;
+                /* code */
+            }
+            
             if (nueva_dist < distancias[v]) {
                 distancias[v] = nueva_dist;
                 predecesor[v] = u;
